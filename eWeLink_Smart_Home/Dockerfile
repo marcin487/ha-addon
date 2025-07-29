@@ -3,7 +3,9 @@
 
 FROM node:14-slim
 ENV CK_API_ENV=prod
-RUN apt-get update && apt-get install -y python build-essential
+RUN sed -i 's|http://deb.debian.org|http://archive.debian.org|g' /etc/apt/sources.list && \
+    sed -i '/security.debian.org/d' /etc/apt/sources.list && \
+    apt-get update && apt-get install -y python build-essential
 RUN mkdir -p /workspace/node_modules
 COPY ["./dist", "./package.json", "/workspace/"]
 WORKDIR /workspace
